@@ -1,0 +1,14 @@
+sources:
+  example:
+    type: file
+    include: ["/var/log/**/*.log"]
+    read_from: beginning
+
+sinks:
+  example:
+    type: clickhouse
+    inputs: ["example"]
+    database: logs
+    endpoint: "http://{{ hostvars['clickhouse-01']['ansible_host'] | default('clickhouse-01') }}:8123"
+    table: logs
+    skip_unknown_fields: true
